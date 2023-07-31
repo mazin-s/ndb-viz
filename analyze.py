@@ -4,6 +4,7 @@ import math
 from typing import Any, Union
 import plotly.express as px
 import plotly.graph_objs as go
+import re
 
 
 class CodeQualityAnalyzer:
@@ -61,7 +62,7 @@ class CodeQualityAnalyzer:
             lines = lines[4:-3]  # Include only the meat of report
             self.path2data = {}
             for line in lines:
-                (path, blank, comment, code) = line.split()
+                (path, blank, comment, code) = re.split(r"\s{2,}", line)
                 self.path2data[path] = (int(code), int(comment), int(blank))
             self.file_hierarcy = {}
             num_source = 0
@@ -158,10 +159,10 @@ class CodeQualityAnalyzer:
 
 if __name__ == "__main__":
     analyzer = CodeQualityAnalyzer(
-        base_path="../..",
-        exclude_dirs=["utils/viz/"],
+        base_path="../nutanix-era-airavata",
+        exclude_dirs=[],
         ext=".py",
-        run_cloc=False,
+        run_cloc=True,
     )
     fig = analyzer.generate_treemap()
     fig.show()
