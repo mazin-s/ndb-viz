@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
     <meta charset="UTF-8">
     <title>NDB Viz</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script>
+
+    </script>
 </head>
+
 <body>
-<div style="width: 100%; height: 97vh; display: flex; flex-direction: column;">
-    <div>
-        <h1>Select visualization type</h1>
-        <div>
-            <a href="/">All</a>
-            <a href="python">Python</a>
-            <a href="java">Java</a>
+    <div style="width: 100%; height: 97vh; display: flex; scroll-behavior: smooth;">
+        <div style="width: 30%; height: 100%;">
+            <a href="#comments">Comments</a>
+            <a href="#logs">Logs</a>
+        </div>
+        <div class="chart" id="graph" style="display: flex; flex-direction: column; flex-grow: 1;">
+            {% for typ, vs in data.items() %}
+            <div id="#{{typ}}">
+                {% for ext, graph in vs.items() %}
+                <div class="chart {{typ}} {{ext}}" id="{{ typ + ext }}">
+                    <script>
+                        var graphs = {{ graph | safe }};
+                        Plotly.plot({{ typ + ext }}, graphs, {});
+                    </script>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
-    <div class="chart" id="graph" style="display: flex; flex-grow: 1;">
-        <script>
-            var graphs = {{plot | safe}};
-            Plotly.plot('graph',graphs,{});
-        </script>
-    </div>
-</div>
 </body>
+
 </html>
