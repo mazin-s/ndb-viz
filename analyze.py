@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 import math
 from typing import Any, Union, NamedTuple, Literal
@@ -186,14 +187,16 @@ class CodeQualityAnalyzer:
                 / (thing.lines if thing.lines > 0 else 1)
                 for thing in data.infos
             ],
-            range_color=[0, 0.4],
+            color_continuous_scale=["red", "#FFD7D6", "white"],
+            range_color=[0, 0.3],
         )
+        fig.update_layout(autosize=True)
         return fig
 
 
 if __name__ == "__main__":
     # Clean up data dir
-    os.rmdir("data")
+    shutil.rmtree("data", ignore_errors=True)
     os.mkdir("data")
     os.mkdir("data/logs")
     os.mkdir("data/comments")
