@@ -1,2 +1,6 @@
 /target
 venv
+data
+.vscode
+.DS_STORE
+out.txt
